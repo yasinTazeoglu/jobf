@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block title %}home-{{ block.super }}{% endblock title %} {% block body %}
+
+
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <aside class="col-12 col-md-2 p-0 bg-dark">
+      {% include "include/nav.html" %}
+    </aside>
+    <main class="col bg-faded py-3">
+      <div class="form">
+        <form method="post" id="company">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleInputEmail1">Company Name</label>
+            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Company Name">
+            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <button type="button" class="btn btn-primary">Send</button>
+        </form>
+      </div>
+      {% if error %}
+      <script></script> {% endif %}
+    </main>
+  </div>
+</div>
+
+{% endblock body %} {% block script %}
+<script>
+
+  $(document).ready(function () {
+    $(window).keydown(function (event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+        control()
+      }
+    });
+
+    function control() {
+      if ($(".form-control").val() == "") {
+        alert("space available")
+      } else {
+        var company = []
+        {% for item in allcompany %}
+        company.push("{{item.name|lower}}")
+        {% endfor %}
+        console.log(company)
+        function checkAdult(name) {
+          var inputname = $(".form-control").val().toString().toLowerCase()
+          return name == inputname;
+        }
+
+        if (company.find(checkAdult)) {
+          alert("recorded data")
+          return false
+        } else {
+          $("#company").submit()
+        }
+      }
+    }
+    $(".btn").click(function () { control() })
+  });
+</script> {% endblock %}

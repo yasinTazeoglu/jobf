@@ -1,0 +1,75 @@
+ {% extends "base.html" %} {% block title %}home-{{ block.super }}{% endblock title %} {% block body %}
+
+<div class="row h-100">
+    <aside class="col-12 col-md-2 p-0 bg-dark">
+        {% include "include/nav.html"%}
+    </aside>
+    <main class="col bg-faded py-3">
+        <div class="form">
+            <table>
+                <tr>
+                    <th>Receiver</th>
+                    <th>Sender</th>
+                    <th>Value (TL)</th>
+                    <th>Weight (kg)</th>
+                    <th>Distance (km)</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>I Paid</th>
+                    <th>Detail</th>
+                </tr>
+                {% for item in allData %}
+                <tr class="bordered">
+                    <td>{{item.receive.name }}</td>
+                    <td>{{ item.sender.name }}</td>
+                    <td>{{ item.value }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td class="distance">{{ item.distance }}</td>
+                    <td>{{ item.save_date.day}}/{{ item.save_date.month}}/{{ item.save_date.year}}</td>
+                    <td>{{ item.save_date.hour}}:{{ item.save_date.minute}}:{{ item.save_date.second}}</td>
+                    <td>
+                        {% if item.paid %} yes {% else %} no {% endif %}
+                    </td>
+                    <td class="spantd">
+                        <span class="span">
+                            <input type="radio" value="{{ item.detail }}" name="optradio">
+                            &nbsp;&nbsp;{{ item.detail }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="encompassing">
+                <h2 class="detail-title"></h2>
+                <div class="showdetail"></div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+</div>
+
+{% endblock body %} {% block script %}
+<script>
+    $(document).ready(function () {
+        $("input[type=radio][name=optradio]").change(function () {
+            detailtext = this.value;
+            $(".showdetail").text(detailtext).css({ "font-size": "25px" });
+            $(".detail-title").text("Showing Detail");
+            $(".encompassing").css({
+                "background-color": "gray",
+                color: "white",
+                "margin-top": "15px",
+                "border-radius": "50px"
+            });
+        });
+    });
+
+</script> {% endblock %} {% block style %}
+<style>
+    .navbar-collapse {
+        padding-left: 15px;
+    }
+</style>
+{% endblock %}

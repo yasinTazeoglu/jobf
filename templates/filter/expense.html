@@ -1,0 +1,71 @@
+ {% extends "base.html" %} {% block title %}home-{{ block.super }}{% endblock title %} {% block body %}
+
+
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <aside class="col-12 col-md-2 p-0 bg-dark">
+            {% include "include/nav.html" %}
+        </aside>
+        <main class="col bg-faded py-3">
+            <div class="form">
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Expense</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Detail</th>
+                    </tr>
+                    {% for item in allData %}
+                    <tr class="bordered">
+                        <td>{{item.kind.name }}</td>
+                        <td>{{ item.expense }}</td>
+                        <td>{{ item.save_date.day}}/{{ item.save_date.month}}/{{ item.save_date.year}}</td>
+                        <td>{{ item.save_date.hour}}:{{ item.save_date.minute}}:{{ item.save_date.second}}</td>
+                        <td class="spantd">
+                            <span class="span">
+                                <input type="radio" value="{{ item.detail }}" name="optradio">
+                                &nbsp;&nbsp;{{ item.detail }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <div class="encompassing">
+                    <h2 class="detail-title"></h2>
+                    <div class="showdetail"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{% endblock body %} {% block script %}
+<script>
+    $(document).ready(function () {
+        function callback(data) {
+            console.log(data);
+        }
+        $.post(
+            "/ajax/test/",
+            { name: "yasin" },
+            function (data) {
+                callback(data);
+            },
+            "json"
+        );
+        $("input[type=radio][name=optradio]").change(function () {
+            detailtext = this.value;
+            $(".showdetail").text(detailtext).css({ "font-size": "25px" });
+            $(".detail-title").text("Showing Detail");
+            $(".encompassing").css({
+                "background-color": "gray",
+                color: "white",
+                "margin-top": "15px",
+                "border-radius": "50px"
+            });
+        });
+    });
+
+</script> {% endblock %}

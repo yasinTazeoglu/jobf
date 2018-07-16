@@ -1,0 +1,46 @@
+html,
+body {
+  height: 100%;
+  overflow-x:hidden;
+}
+div.form {
+  padding: 90px;
+}
+.logo {
+  color: white;
+  font-size: 50px;
+}
+table {
+  font-family: arial, sans-serif;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.span {
+  display: block;
+  text-overflow: ellipsis;
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.spantd{
+  width: 400px;
+}
+.distance{
+  width: 130px;
+}
+.showdetail{
+  padding: 20px;
+}
+.detail-title{
+  text-align: center;
+}

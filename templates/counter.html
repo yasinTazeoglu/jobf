@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}counter-{{ block.super }}{% endblock title %}
+{% block body %}
+<form method="post">
+  {% csrf_token %}
+  <h2>{{ number }}</h2>
+  <input type="hidden" name="value" value='{{number|add:"+1"}}'>
+  <input type="submit" value="tıkla">
+</form>
+{% endblock body %}

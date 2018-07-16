@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block title %}home-{{ block.super }}{% endblock title %} {% block body %}
+
+<div class="row h-100">
+    <aside class="col-12 col-md-2 p-0 bg-dark">
+        {% include "include/nav.html"%}
+    </aside>
+    <main class="col bg-faded py-3">
+        <div class="form">
+            <form method="post" id="data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleSelect1">Select Receive</label>
+                    <select class="form-control" name="receive">
+                        <option value="all">All</option>
+                        {% for item in companies %}
+                        <option value="{{item.id }}">{{item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelect1">Select Sender</label>
+                    <select class="form-control" name="sender">
+                        <option value="all">All</option>
+                        {% for item in companies %}
+                        <option value="{{item.id }}">{{item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="replyNuber">Enter the tranportation fee</label>
+                    {% include "include/input.html" with typ="fee" dt="value" %}
+                </div>
+                <div class="form-group">
+                    <label for="replyNuber">Enter the weight of the load</label>
+                    {% include "include/input.html" with typ="amount" dt="amount" %}
+                </div>
+                <div class="form-group">
+                    <label for="replyNuber">Enter the distance</label>
+                    {% include "include/input.html" with typ="distance" dt="distance" %}
+                </div>
+                <div class="form-group">
+                    <label for="replyNuber">Date</label>
+                    <input type="date" class="form-control datepicker" value="2013-01-01">
+                </div>
+                <div class="input-group-append">
+                    <button type="button" class="btn n hepaid-paid p" typ="paid" seb="all" v="1">he paid</button>
+                    <button type="button" class="btn all-paid p" typ="paid" seb="dont" v="2">all</button>
+                    <button type="button" class="btn n dont-paid p" typ="paid" seb="hepaid" v="3">he don't paid</button>
+                </div>
+                <br>
+                <input type="hidden" name="paid" value="1" class="paid-type">
+
+                <button type="submit" class="btn btn-primary" id="data-btn">Send</button>
+            </form>
+        </div>
+    </main>
+</div>
+</div>
+
+{% endblock body %} {% block script %}
+<script>
+    $.c = function (name) {
+        $(name).click(function () {
+            var seb = $(this).attr("seb")
+            var type = $(this).attr("typ")
+            var v = $(this).attr("v")
+            $("." + type + "-type").val(v)
+            $(this).css('display', 'none');
+            $("." + seb + "-" + type).css('display', 'inline-block');
+        })
+    }
+
+    $(document).ready(function () {
+        $.c(".click")
+        $.c(".p")
+        $(".datepicker").change(function(){
+            alert($(this).val())
+        })
+        $(".form-check-input").change(function () {
+            if ($(".form-check-input").is(":checked")) {
+                $(".form-check-input").attr("value", "1");
+            } else {
+                $(".form-check-input").attr("value", "0");
+            }
+        })
+    });
+</script> {% endblock %} {% block style %}
+<style>
+    .n {
+        display: none;
+    }
+
+    .navbar-collapse {
+        margin-left: 15px;
+    }
+
+    .click {
+        width: 80px;
+    }
+
+    .p {
+        width: 160px;
+    }
+</style>
+{% endblock %}

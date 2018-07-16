@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block title %}home-{{ block.super }}{% endblock title %} {% block body %}
+
+
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <aside class="col-12 col-md-2 p-0 bg-dark">
+      {% include "include/nav.html" %}
+    </aside>
+    <main class="col bg-faded py-3">
+      <div class="form">
+        <form method="post" id="data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleSelect1">Select Receive</label>
+            <select class="form-control" name="receive">
+              {% for item in companies %}
+              <option value="{{item.id }}">{{item.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleSelect1">Select Sender</label>
+            <select class="form-control" name="sender">
+              {% for item in companies %}
+              <option value="{{item.id }}">{{item.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="replyNuber">Enter the tranportation fee</label>
+            <input type="number" class="form-control fee" oninput="this.value=Math.abs(this.value)" name="value" min="0" step="1" max="15">
+          </div>
+          <div class="form-group">
+            <label for="replyNuber">Enter the weight of the load</label>
+            <input type="number" class="form-control amount" oninput="this.value=Math.abs(this.value)" name="amount" min="0" step="1">
+          </div>
+          <div class="form-group">
+            <label for="replyNuber">Enter the distance</label>
+            <input type="number" class="form-control distance" oninput="this.value=Math.abs(this.value)" name="distance" min="0" step="1">
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" onchange="chance()" class="form-check-input" value="False" name="paid">I Paid
+            </label>
+          </div>
+          <div class="form-group">
+            <label for="exampleTextarea">Detail</label>
+            <textarea class="form-control detail" id="exampleTextarea" rows="3" name="detail"></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" id="data-btn" onclick="control()">Send</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+
+{% endblock body %} {% block script %}
+<script>
+  $(".btn").click(function () {
+    var control = $(".fee").val() == "" || $(".value").val() == "" || $(".amount").val() == "" || $(".distance").val() == ""
+    if (control) {
+      alert("free space available")
+    } else {
+      $("#data").submit();
+    }
+  })
+
+  $(".form-check-input").change(function () {
+    if ($(".form-check-input").is(":checked")) {
+      $(".form-check-input").attr("value", "True");
+    } else {
+      $(".form-check-input").attr("value", "False");
+    }
+  })
+
+</script> {% endblock %}
