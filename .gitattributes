@@ -1,2 +1,1 @@
-static/* linguist-vendored
-linguist-language=Django
+*.rb linguist-language=Python
